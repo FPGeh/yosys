@@ -285,38 +285,83 @@ module LUT6_2(output O6, output O5, input I0, I1, I2, I3, I4, I5);
 endmodule
 
 // This is a placeholder for ABC9 to extract the area/delay
-//   cost of 3-input LUTs and is not intended to be instantiated
+//   cost of cofactored LUTs and is not intended to be instantiated
 (* abc9_lut=10 *)
-module \$__ABC9_LUT7 (output O, input I0, I1, I2, I3, I4, I5, I6);
+module \$__ABC9_LUT3X2 (output O, input I0, I1, I2, I3, I4, I5, I6);
 `ifndef __ICARUS__
   specify
                                                  // https://github.com/SymbiFlow/prjxray-db/blob/1c85daf1b115da4d27ca83c6b89f53a94de39748/artix7/timings/slicel.sdf#L867
-    (I0 => O) = 642 + 223 /* to cross F7BMUX */ + 174 /* CMUX */;
-    (I1 => O) = 631 + 223 /* to cross F7BMUX */ + 174 /* CMUX */;
-    (I2 => O) = 472 + 223 /* to cross F7BMUX */ + 174 /* CMUX */;
-    (I3 => O) = 407 + 223 /* to cross F7BMUX */ + 174 /* CMUX */;
-    (I4 => O) = 238 + 223 /* to cross F7BMUX */ + 174 /* CMUX */;
-    (I5 => O) = 127 + 223 /* to cross F7BMUX */ + 174 /* CMUX */;
+    ({I0,I1} *> O) = 407 + 223 /* to cross F7BMUX */ + 174 /* CMUX */;
+    ({I2,I3} *> O) = 238 + 223 /* to cross F7BMUX */ + 174 /* CMUX */;
+    ({I4,I5} *> O) = 127 + 223 /* to cross F7BMUX */ + 174 /* CMUX */;
     (I6 => O) = 0 + 296 /* to select F7BMUX */ + 174 /* CMUX */;
   endspecify
 `endif
 endmodule
-
-// This is a placeholder for ABC9 to extract the area/delay
-//   cost of 3-input LUTs and is not intended to be instantiated
-(* abc9_lut=20 *)
+(* abc9_lut=10 *)
+module \$__ABC9_LUT4X2 (output O, input I0, I1, I2, I3, I4, I5, I6, I7, I8);
+`ifndef __ICARUS__
+  specify
+                                                 // https://github.com/SymbiFlow/prjxray-db/blob/1c85daf1b115da4d27ca83c6b89f53a94de39748/artix7/timings/slicel.sdf#L867
+    ({I0,I1} *> O) = 472 + 223 /* to cross F7BMUX */ + 174 /* CMUX */;
+    ({I2,I3} *> O) = 407 + 223 /* to cross F7BMUX */ + 174 /* CMUX */;
+    ({I4,I5} *> O) = 238 + 223 /* to cross F7BMUX */ + 174 /* CMUX */;
+    ({I6,I7} *> O) = 127 + 223 /* to cross F7BMUX */ + 174 /* CMUX */;
+    (I8 => O) = 0 + 296 /* to select F7BMUX */ + 174 /* CMUX */;
+  endspecify
+`endif
+endmodule
+(* abc9_lut=10 *)
+module \$__ABC9_LUT5X2 (output O, input I0, I1, I2, I3, I4, I5, I6, I7, I8, I9, I10);
+`ifndef __ICARUS__
+  specify
+                                                 // https://github.com/SymbiFlow/prjxray-db/blob/1c85daf1b115da4d27ca83c6b89f53a94de39748/artix7/timings/slicel.sdf#L867
+    ({I0,I1} *> O) = 631 + 223 /* to cross F7BMUX */ + 174 /* CMUX */;
+    ({I2,I3} *> O) = 472 + 223 /* to cross F7BMUX */ + 174 /* CMUX */;
+    ({I4,I5} *> O) = 407 + 223 /* to cross F7BMUX */ + 174 /* CMUX */;
+    ({I6,I7} *> O) = 238 + 223 /* to cross F7BMUX */ + 174 /* CMUX */;
+    ({I8,I9} *> O) = 127 + 223 /* to cross F7BMUX */ + 174 /* CMUX */;
+    (I10 => O) = 0 + 296 /* to select F7BMUX */ + 174 /* CMUX */;
+  endspecify
+`endif
+endmodule
+(* abc9_lut=10 *)
+module \$__ABC9_LUT6X2 (output O, input I0, I1, I2, I3, I4, I5, I6, I7, I8, I9, I10, I11, I12);
+`ifndef __ICARUS__
+  specify
+                                                 // https://github.com/SymbiFlow/prjxray-db/blob/1c85daf1b115da4d27ca83c6b89f53a94de39748/artix7/timings/slicel.sdf#L867
+    ({I0,I1} *> O) = 642 + 223 /* to cross F7BMUX */ + 174 /* CMUX */;
+    ({I2,I3} *> O) = 631 + 223 /* to cross F7BMUX */ + 174 /* CMUX */;
+    ({I4,I5} *> O) = 472 + 223 /* to cross F7BMUX */ + 174 /* CMUX */;
+    ({I6,I7} *> O) = 407 + 223 /* to cross F7BMUX */ + 174 /* CMUX */;
+    ({I8,I9} *> O) = 238 + 223 /* to cross F7BMUX */ + 174 /* CMUX */;
+    ({I10,I11} *> O) = 127 + 223 /* to cross F7BMUX */ + 174 /* CMUX */;
+    (I12 => O) = 0 + 296 /* to select F7BMUX */ + 174 /* CMUX */;
+  endspecify
+`endif
+endmodule
+// Unreachable LUTs for continguity in library
+(* abc9_lut=9999 *)
 module \$__ABC9_LUT8 (output O, input I0, I1, I2, I3, I4, I5, I6, I7);
 `ifndef __ICARUS__
   specify
-                                                                             // https://github.com/SymbiFlow/prjxray-db/blob/1c85daf1b115da4d27ca83c6b89f53a94de39748/artix7/timings/slicel.sdf#L716
-    (I0 => O) = 642 + 223 /* to cross F7BMUX */ + 104 /* to cross F8MUX */ + 192 /* BMUX */;
-    (I1 => O) = 631 + 223 /* to cross F7BMUX */ + 104 /* to cross F8MUX */ + 192 /* BMUX */;
-    (I2 => O) = 472 + 223 /* to cross F7BMUX */ + 104 /* to cross F8MUX */ + 192 /* BMUX */;
-    (I3 => O) = 407 + 223 /* to cross F7BMUX */ + 104 /* to cross F8MUX */ + 192 /* BMUX */;
-    (I4 => O) = 238 + 223 /* to cross F7BMUX */ + 104 /* to cross F8MUX */ + 192 /* BMUX */;
-    (I5 => O) = 127 + 223 /* to cross F7BMUX */ + 104 /* to cross F8MUX */ + 192 /* BMUX */;
-    (I6 => O) = 0 + 296 /* to select F7BMUX */  + 104 /* to cross F8MUX */ + 192 /* BMUX */;
-    (I7 => O) = 0 + 0 + 273 /* to select F8MUX */ + 192 /* BMUX */;
+    ({I0,I1,I2,I3,I4,I5,I6,I7} *> O) = 9999;
+  endspecify
+`endif
+endmodule
+(* abc9_lut=9999 *)
+module \$__ABC9_LUT10 (output O, input I0, I1, I2, I3, I4, I5, I6, I7, I8, I9);
+`ifndef __ICARUS__
+  specify
+    ({I0,I1,I2,I3,I4,I5,I6,I7,I8,I9} *> O) = 9999;
+  endspecify
+`endif
+endmodule
+(* abc9_lut=9999 *)
+module \$__ABC9_LUT12 (output O, input I0, I1, I2, I3, I4, I5, I6, I7, I8, I9, I10, I11);
+`ifndef __ICARUS__
+  specify
+    ({I0,I1,I2,I3,I4,I5,I6,I7,I8,I9,I10,I11} *> O) = 9999;
   endspecify
 `endif
 endmodule

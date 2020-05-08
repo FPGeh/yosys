@@ -404,3 +404,41 @@ endmodule
 module \$__XILINX_TOUTPAD (input I, OE, output O);
   OBUFT _TECHMAP_REPLACE_ (.I(I), .O(O), .T(~OE));
 endmodule
+
+module \$__ABC9_CLUSTER_NNN3 (input [A0_WIDTH-1:0] A0, input [A1_WIDTH-1:0] A1, input [A2_WIDTH-1:0] A2, output Y);
+  parameter A0_WIDTH = 1;
+  parameter A1_WIDTH = 1;
+  parameter A2_WIDTH = 1;
+  parameter A0_LUT = 0;
+  parameter A1_LUT = 0;
+  parameter A2_LUT = 0;
+  localparam B_WIDTH = 3;
+  parameter [2**B_WIDTH-1:0] B_LUT = 0;
+
+  wire Y0, Y1, Y2;
+
+  generate
+    if (B_LUT == 8'b11011000 && A0_WIDTH == 1 && A0_LUT == 2'b10) begin
+      MUXF7 mux (.I0(Y2), .I1(Y1), .S(A0), .O(Y));
+      $lut #(.WIDTH(A1_WIDTH), .LUT(A1_LUT)) a1_lut (.A(A1), .Y(Y1));
+      $lut #(.WIDTH(A2_WIDTH), .LUT(A2_LUT)) a2_lut (.A(A2), .Y(Y2));
+    end
+    else begin
+      $lut #(.WIDTH(B_WIDTH), .LUT(B_LUT)) b_lut (.A({Y2,Y1,Y0}), .Y(Y));
+
+      if (A0_WIDTH == 1 && A0_LUT == 2'b10)
+        assign Y0 = A0; // Get rid of route-through
+      else
+        $lut #(.WIDTH(A0_WIDTH), .LUT(A0_LUT)) a0_lut (.A(A0), .Y(Y0));
+      if (A1_WIDTH == 1 && A1_LUT == 2'b10)
+        assign Y1 = A1; // Get rid of route-through
+      else
+        $lut #(.WIDTH(A1_WIDTH), .LUT(A1_LUT)) a1_lut (.A(A1), .Y(Y1));
+      if (A2_WIDTH == 1 && A2_LUT == 2'b10)
+        assign Y2 = A2; // Get rid of route-through
+      else
+        $lut #(.WIDTH(A2_WIDTH), .LUT(A2_LUT)) a2_lut (.A(A2), .Y(Y2));
+
+    end
+  endgenerate
+endmodule
