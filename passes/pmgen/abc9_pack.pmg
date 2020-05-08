@@ -1,0 +1,39 @@
+pattern abc9_pack_NNN3
+
+match root
+	select root->type == $lut
+	select param(root, \WIDTH) == 3
+	select root->has_attribute(\abc9_pack)
+endmatch
+
+match A0
+	select A0->type == $lut
+	select A0->has_attribute(\abc9_pack)
+	index <SigBit> port(A0, \Y) === port(root, \A)[0]
+	index <Const> A0->attributes.at(\abc9_pack) === root->attributes.at(\abc9_pack)
+	semioptional
+endmatch
+
+match A1
+	select A1->type == $lut
+	select A1->has_attribute(\abc9_pack)
+	index <SigBit> port(A1, \Y) === port(root, \A)[1]
+	index <Const> A1->attributes.at(\abc9_pack) === root->attributes.at(\abc9_pack)
+	semioptional
+endmatch
+
+match A2
+	select A2->type == $lut
+	select A2->has_attribute(\abc9_pack)
+	index <SigBit> port(A2, \Y) === port(root, \A)[2]
+	index <Const> A2->attributes.at(\abc9_pack) === root->attributes.at(\abc9_pack)
+	semioptional
+endmatch
+
+code
+	log_assert((A0?1:0) + (A1?1:0) + (A2?1:0) > 1);
+	accept;
+endcode
+
+
+

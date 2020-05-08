@@ -46,3 +46,9 @@ passes/pmgen/peepopt_pm.h: passes/pmgen/pmgen.py $(PEEPOPT_PATTERN)
 OBJS += passes/pmgen/xilinx_srl.o
 passes/pmgen/xilinx_srl.o: passes/pmgen/xilinx_srl_pm.h
 $(eval $(call add_extra_objs,passes/pmgen/xilinx_srl_pm.h))
+
+# --------------------------------------
+
+OBJS += passes/pmgen/abc9_pack.o
+passes/pmgen/abc9_pack.o: passes/pmgen/abc9_pack_pm.h
+$(eval $(call add_extra_objs,passes/pmgen/abc9_pack_pm.h))
