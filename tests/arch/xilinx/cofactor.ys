@@ -1,0 +1,35 @@
+read_verilog <<EOT
+module top(input [5:0] a, b, input s, output o);
+assign o = s ? &a : &b;
+endmodule
+EOT
+synth_xilinx -abc9 -noiopad
+select -assert-count 2 t:LUT6
+select -assert-count 1 t:MUXF7
+select -assert-count 0 t:LUT6 t:MUXF7 %% t:* %D
+
+
+design -reset
+read_verilog <<EOT
+module top(input [5:0] a, input b, input s, output o);
+assign o = s ? &a : b;
+endmodule
+EOT
+synth_xilinx -abc9 -noiopad
+show
+select -assert-count 1 t:LUT1
+select -assert-count 1 t:LUT6
+select -assert-count 1 t:MUXF7
+select -assert-count 0 t:LUT1 t:LUT6 t:MUXF7 %% t:* %D
+
+
+design -reset
+read_verilog <<EOT
+module top(input [5:0] a, b, input s, output o);
+assign o = s ? &a : |b;
+endmodule
+EOT
+synth_xilinx -abc9 -noiopad
+select -assert-count 2 t:LUT6
+select -assert-count 1 t:MUXF7
+
