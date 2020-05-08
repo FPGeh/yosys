@@ -135,7 +135,7 @@ bumpversion:
 # is just a symlink to your actual ABC working directory, as 'make mrproper'
 # will remove the 'abc' directory and you do not want to accidentally
 # delete your work on ABC..
-ABCREV = fd2c9b1
+ABCREV = 05c7eaba
 ABCPULL = 1
 ABCURL ?= https://github.com/YosysHQ/abc
 ABCMKARGS = CC="$(CXX)" CXX="$(CXX)" ABC_USE_LIBSTDCXX=1
@@ -721,7 +721,7 @@ ifneq ($(ABCREV),default)
 		test $(ABCPULL) -ne 0 || { echo 'REEBE: NOP abg hc gb qngr naq NOPCHYY frg gb 0 va Znxrsvyr!' | tr 'A-Za-z' 'N-ZA-Mn-za-m'; exit 1; }; \
 		echo "Pulling ABC from $(ABCURL):"; set -x; \
 		test -d abc || git clone $(ABCURL) abc; \
-		cd abc && $(MAKE) DEP= clean && git fetch $(ABCURL) && git checkout $(ABCREV); \
+		cd abc && $(MAKE) DEP= clean && git fetch $(ABCURL) eddie/if_cofactor:eddie/if_cofactor && git checkout $(ABCREV); \
 	fi
 endif
 	$(Q) rm -f abc/abc-[0-9a-f]*
