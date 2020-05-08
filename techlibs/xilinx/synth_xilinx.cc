@@ -32,8 +32,9 @@ struct SynthXilinxPass : public ScriptPass
 
 	void on_register() YS_OVERRIDE
 	{
-		RTLIL::constpad["synth_xilinx.abc9.xc7.W"] = "300"; // Number with which ABC will map a 6-input gate
-								    // to one LUT6 (instead of a LUT5 + LUT2)
+		RTLIL::constpad["synth_xilinx.abc9.xc7.W"] = "330"; // Number with which ABC will map the 13-input
+								    // function "assign o = s ? &a[5:0] : |a[5:0]
+                                                                    // using 2 x LUT6 cofactors with MUXF7
 	}
 
 	void help() YS_OVERRIDE

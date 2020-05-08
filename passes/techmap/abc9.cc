@@ -38,7 +38,7 @@ struct Abc9Pass : public ScriptPass
 	Abc9Pass() : ScriptPass("abc9", "use ABC9 for technology mapping") { }
 	void on_register() YS_OVERRIDE
 	{
-		RTLIL::constpad["abc9.script.default"] = "+&scorr; &sweep; &dc2; &dch -f; &ps; &if {C} {W} {D} {R} -v -i; &mfs";
+		RTLIL::constpad["abc9.script.default"] = "+&scorr; &sweep; &dc2; &dch -f; &ps; &if -C 32 {W} {D} {R} -v -i; &mfs";
 		RTLIL::constpad["abc9.script.default.area"] = "+&scorr; &sweep; &dc2; &dch -f; &ps; &if {C} {W} {D} {R} -a -v; &mfs";
 		RTLIL::constpad["abc9.script.default.fast"] = "+&if {C} {W} {D} {R} -v";
 		// Based on ABC's &flow
