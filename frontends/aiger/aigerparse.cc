@@ -439,10 +439,11 @@ void AigerReader::parse_xaiger()
 					log_assert(o.wire == nullptr);
 					lut_mask[gray] = o.data;
 				}
-				RTLIL::Cell *output_cell = module->cell(stringf("$and$aiger%d$%d", aiger_autoidx, rootNodeID));
+				auto output_cell = module->cell(stringf("$and$aiger%d$%d", aiger_autoidx, rootNodeID));
 				log_assert(output_cell);
+				auto lut = module->addLut(stringf("$lut$aiger%d$%d", aiger_autoidx, rootNodeID), input_sig, output_sig, std::move(lut_mask));
+				lut->attributes = std::move(output_cell->attributes);
 				module->remove(output_cell);
-				module->addLut(stringf("$lut$aiger%d$%d", aiger_autoidx, rootNodeID), input_sig, output_sig, std::move(lut_mask));
 			}
 		}
 		else if (c == 'r') {
@@ -492,6 +493,22 @@ void AigerReader::parse_xaiger()
 				cell->setPort(ID(o), SigSpec(State::S0, boxOutputs));
 				cell->attributes[ID::abc9_box_seq] = oldBoxNum;
 				boxes.emplace_back(cell);
+			}
+		}
+		else if (c == 'k') {
+			// 'k' is assumed to be be before 'm'
+			uint32_t dataSize = parse_xaiger_literal(f);
+			uint32_t structNum = parse_xaiger_literal(f);
+			log_debug("k: dataSize=%u structNum=%u\n", dataSize, structNum);
+			for (unsigned i = 0; i < structNum; ++i) {
+				uint32_t lutNum = parse_xaiger_literal(f);
+				for (unsigned j = 0; j < lutNum; ++j) {
+					uint32_t nodeID = parse_xaiger_literal(f);
+					auto output_cell = module->cell(stringf("$and$aiger%d$%d", aiger_autoidx, nodeID));
+					log_assert(output_cell);
+					auto r YS_ATTRIBUTE(unused) = output_cell->attributes.emplace(ID::abc9_pack, i);
+					log_assert(r.second);
+				}
 			}
 		}
 		else if (c == 'a' || c == 'i' || c == 'o' || c == 's') {
